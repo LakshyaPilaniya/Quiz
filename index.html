@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #6a0dad; /* Purple background */
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    #quiz-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
+      max-width: 600px;
+      text-align: center;
+      width: 80%;
+    }
+
+    #question {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    #options button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 90%;
+      background: #ff7f50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    #options button:hover {
+      background: #ff6347;
+      transform: scale(1.05);
+    }
+
+    #next-btn {
+      background: #48d1cc;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+
+    #next-btn:hover {
+      background: #20b2aa;
+    }
+
+    #result {
+      font-size: 2em;
+      color: #fff;
+      margin-top: 20px;
+    }
+
+    #footer {
+      margin-top: 20px;
+      font-size: 1em;
+      color: #d3d3d3;
+    }
+  </style>
+</head>
+<body>
+  <div id="quiz-container">
+    <h1>HTML, CSS, and JavaScript Quiz</h1>
+    <div id="question"></div>
+    <div id="options"></div>
+    <button id="next-btn">Next Question</button>
+    <div id="result"></div>
+  </div>
+  <div id="footer">Made By Lakshya Pilaniya</div>
+  <script>
+    const questions = [
+      { question: "What does HTML stand for?", options: ["Hyper Text Markup Language", "Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyper Transfer Markup Language"], answer: "Hyper Text Markup Language" },
+      { question: "Which HTML tag is used to define a table row?", options: ["<td>", "<tr>", "<th>", "<table>"], answer: "<tr>" },
+      { question: "What is the correct CSS syntax to change the font size to 20px?", options: ["font-size: 20px;", "text-size: 20px;", "font: 20px;", "size-font: 20px;"], answer: "font-size: 20px;" },
+      { question: "Which property is used to change the background color in CSS?", options: ["color", "background-color", "bg-color", "back-color"], answer: "background-color" },
+      { question: "Which CSS property controls the text size?", options: ["font-size", "text-size", "size", "text-font-size"], answer: "font-size" },
+      { question: "Which company developed JavaScript?", options: ["Microsoft", "Netscape", "Google", "Sun Microsystems"], answer: "Netscape" },
+      { question: "What is used to add a comment in JavaScript?", options: ["//", "/* */", "<!-- -->", "#"], answer: "//" },
+      { question: "What does '==' mean in JavaScript?", options: ["Equal value and type", "Equal value", "Not equal", "Less than"], answer: "Equal value" },
+      { question: "Which event occurs when an element is clicked?", options: ["onclick", "onchange", "onmouseclick", "onhover"], answer: "onclick" },
+      { question: "How do you declare a JavaScript variable?", options: ["var x;", "variable x;", "v x;", "let x;"], answer: "var x;" },
+      { question: "What is the correct HTML tag for the largest heading?", options: ["<head>", "<h1>", "<heading>", "<title>"], answer: "<h1>" },
+      { question: "Which HTML tag is used to define an unordered list?", options: ["<ul>", "<ol>", "<li>", "<list>"], answer: "<ul>" },
+      { question: "What is the default position in CSS?", options: ["relative", "absolute", "static", "fixed"], answer: "static" },
+      { question: "How do you create a function in JavaScript?", options: ["function = myFunction()", "function myFunction()", "createFunction()", "func()"], answer: "function myFunction()" },
+      { question: "Which operator is used to assign a value to a variable?", options: ["=", "==", "===", "->"], answer: "=" }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function displayQuestion() {
+      const questionElem = document.getElementById("question");
+      const optionsElem = document.getElementById("options");
+      questionElem.innerText = questions[currentQuestion].question;
+      optionsElem.innerHTML = "";
+
+      questions[currentQuestion].options.forEach(option => {
+        const button = document.createElement("button");
+        button.innerText = option;
+        button.onclick = () => {
+          if (option === questions[currentQuestion].answer) {
+            score++;
+          }
+          currentQuestion++;
+          if (currentQuestion < questions.length) {
+            displayQuestion();
+          } else {
+            showResult();
+          }
+        };
+        optionsElem.appendChild(button);
+      });
+    }
+
+    function showResult() {
+      document.getElementById("quiz-container").innerHTML = `
+        <h1>Quiz Completed!</h1>
+        <p id="result">You scored ${score} out of ${questions.length}!</p>
+      `;
+    }
+
+    document.getElementById("next-btn").onclick = () => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        displayQuestion();
+      } else {
+        showResult();
+      }
+    };
+
+    displayQuestion();
+  </script>
+</body>
+</html>
